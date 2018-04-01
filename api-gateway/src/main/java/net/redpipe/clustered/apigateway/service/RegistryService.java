@@ -1,36 +1,52 @@
 package net.redpipe.clustered.apigateway.service;
 
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
+import io.vertx.rx.java.ObservableFuture;
+import io.vertx.rx.java.RxHelper;
 import io.vertx.rxjava.servicediscovery.ServiceDiscovery;
-import io.vertx.servicediscovery.Record;
-import io.vertx.servicediscovery.types.HttpEndpoint;
+import net.redpipe.clustered.apigateway.util.ServiceUtils;
+import net.redpipe.engine.core.AppGlobals;
 import rx.Single;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import java.util.List;
 
 @Path("/registry")
 @ApplicationScoped
 public class RegistryService {
 
-    @Inject
-    ServiceDiscovery serviceDiscovery;
 
-    @PostConstruct
-    private void init() {
+    @Inject
+    Vertx vertx;
+
+    public RegistryService() {
         System.out.println("init RegistryService");
     }
 
+
     @GET
-    public Single<List<Record>> get() {
-        return allRecords();
+    public Single<String> get() {
+        ObservableFuture<String> resultHandler = RxHelper.observableFuture();
+        ServiceDiscovery serviceDiscovery = (ServiceDiscovery) AppGlobals.get().getGlobal("serviceDiscovery");
+        ServiceUtils.getAllEndpoints(serviceDiscovery).setHandler(ar ->
+        {
+            if (ar.succeeded()) {
+                StringBuffer sb = new StringBuffer();
+                ar.result().stream()
+                        .forEach(record -> {
+                            sb.append(record.getName() + ", " + record.getLocation() + ", " + record.getMetadata());
+                        });
+
+                resultHandler.toHandler().handle(Future.succeededFuture(sb.toString()));
+            } else {
+                resultHandler.toHandler().handle(Future.failedFuture("no result"));
+            }
+        });
+        return resultHandler.toSingle();
     }
 
 
-    private Single<List<Record>> allRecords() {
-        return serviceDiscovery.rxGetRecords(record -> record.getType().equals(HttpEndpoint.TYPE));
-    }
 }

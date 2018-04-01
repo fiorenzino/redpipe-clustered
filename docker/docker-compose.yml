@@ -14,7 +14,7 @@ services:
       environment:
        REDPIPE_HOME: "/usr/redpipes"
        REDPIPE_LIB: "/usr/redpipes/lib"
-       JAVA_OPTS: "-Xmx512m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome"
+       JAVA_OPTS: "-Xmx512m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"
        REDPIPE_CONF_FILE: "api-gateway.json"
        REDPIPE_JAR_FILE: "/usr/redpipes/api-gateway-0.0.2-SNAPSHOT.jar"
        MAIN_REDPIPE: "net.redpipe.clustered.apigateway.server.Main"
@@ -31,7 +31,7 @@ services:
     environment:
       REDPIPE_HOME: "/usr/redpipes"
       REDPIPE_LIB: "/usr/redpipes/lib"
-      JAVA_OPTS: "-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome "
+      JAVA_OPTS: "-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"
       REDPIPE_CONF_FILE: "account-service.json"
       REDPIPE_JAR_FILE: "/usr/redpipes/clubs-0.0.2-SNAPSHOT.jar"
       MAIN_REDPIPE: "net.redpipe.clustered.clubs.server.Main"
@@ -39,7 +39,7 @@ services:
       - 8000
       - 8081
     ports:
-      - "9008:8000"
+      - "9002:8000"
     command: [sh, -c,
      "/usr/bin/java $$JAVA_OPTS -cp $$(echo $$REDPIPE_LIB/*.jar | tr ' ' ':'):$$REDPIPE_JAR_FILE $$MAIN_REDPIPE"]
   users:
@@ -50,7 +50,7 @@ services:
     environment:
       REDPIPE_HOME: "/usr/redpipes"
       REDPIPE_LIB: "/usr/redpipes/lib"
-      JAVA_OPTS: "-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome"
+      JAVA_OPTS: "-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"
       REDPIPE_CONF_FILE: "calendar-service.json"
       REDPIPE_JAR_FILE: "/usr/redpipes/users-0.0.2-SNAPSHOT.jar"
       MAIN_REDPIPE: "net.redpipe.clustered.users.server.Main"
@@ -58,7 +58,7 @@ services:
       - 8000
       - 8081
     ports:
-      - "9007:8000"
+      - "9003:8000"
     command: [sh, -c,
       "/usr/bin/java $$JAVA_OPTS -cp $$(echo $$REDPIPE_LIB/*.jar | tr ' ' ':'):$$REDPIPE_JAR_FILE $$MAIN_REDPIPE"]
 

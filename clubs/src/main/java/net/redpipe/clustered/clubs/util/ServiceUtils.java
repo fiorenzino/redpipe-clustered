@@ -1,11 +1,11 @@
-package net.redpipe.clustered.apigateway.util;
+package net.redpipe.clustered.clubs.util;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.servicediscovery.Record;
 import io.vertx.rxjava.servicediscovery.ServiceDiscovery;
+import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 import net.redpipe.engine.core.AppGlobals;
 
