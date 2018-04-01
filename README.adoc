@@ -1,11 +1,10 @@
 = REDPIPE cluster POC
 
-**POC of use REDPIPE (0.2.SNAPSHOT) in cluster using vertx cluster.
-**
+*POC of use REDPIPE (0.2.SNAPSHOT) in cluster using vertx cluster.*
 
 The scenario, 3 services:
 
-* 2 simple services (users and club)
+* 2 simple services (*users* and *club*)
 * 1 api gateway, that expose all other services, in the /api/xxx path
 
 We have one single docker instance for a single service, and we publish on the service discovery the path of service.
@@ -16,14 +15,13 @@ it's a fat jar classpath.
 
 How to start:
 
-** clone the project:
-**
+*clone the project:*
 
 * git clone https://github.com/fiorenzino/redpipe
 * mvn clean install -Dsource.skip=true
 
-** clone the redpipe-cluster:
-**
+*clone the redpipe-cluster:*
+
 
 * git clone https://github.com/fiorenzino/redpipe-clustered
 * cd redpipe-clustered
