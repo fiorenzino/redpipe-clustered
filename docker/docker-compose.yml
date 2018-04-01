@@ -1,0 +1,64 @@
+version: "2"
+services:
+  api-gateway:
+      image:  docker.flw.ovh/redpipe/redpipe-clustered:0.0.2-SNAPSHOT
+      working_dir: "/usr/redpipes"
+      restart: always
+      mem_limit: 1024m
+      expose:
+        - "8080"
+        - "8000"
+      ports:
+        - "9001:8000"
+        - "8080:8080"
+      environment:
+       REDPIPE_HOME: "/usr/redpipes"
+       REDPIPE_LIB: "/usr/redpipes/lib"
+       JAVA_OPTS: "-Xmx512m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome"
+       REDPIPE_CONF_FILE: "api-gateway.json"
+       REDPIPE_JAR_FILE: "/usr/redpipes/api-gateway-0.0.2-SNAPSHOT.jar"
+       MAIN_REDPIPE: "net.redpipe.clustered.apigateway.server.Main"
+      links:
+        - clubs
+        - users
+      command: [sh, -c,
+   "/usr/bin/java $$JAVA_OPTS -cp $$(echo $$REDPIPE_LIB/*.jar | tr ' ' ':'):$$REDPIPE_JAR_FILE $$MAIN_REDPIPE"]
+  clubs:
+    image:  docker.flw.ovh/redpipe/redpipe-clustered:0.0.2-SNAPSHOT
+    working_dir: "/usr/redpipes"
+    restart: always
+    mem_limit: 512m
+    environment:
+      REDPIPE_HOME: "/usr/redpipes"
+      REDPIPE_LIB: "/usr/redpipes/lib"
+      JAVA_OPTS: "-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome "
+      REDPIPE_CONF_FILE: "account-service.json"
+      REDPIPE_JAR_FILE: "/usr/redpipes/clubs-0.0.2-SNAPSHOT.jar"
+      MAIN_REDPIPE: "net.redpipe.clustered.clubs.server.Main"
+    expose:
+      - 8000
+      - 8081
+    ports:
+      - "9008:8000"
+    command: [sh, -c,
+     "/usr/bin/java $$JAVA_OPTS -cp $$(echo $$REDPIPE_LIB/*.jar | tr ' ' ':'):$$REDPIPE_JAR_FILE $$MAIN_REDPIPE"]
+  users:
+    image:  docker.flw.ovh/redpipe/redpipe-clustered:0.0.2-SNAPSHOT
+    working_dir: "/usr/redpipes"
+    restart: always
+    mem_limit: 512m
+    environment:
+      REDPIPE_HOME: "/usr/redpipes"
+      REDPIPE_LIB: "/usr/redpipes/lib"
+      JAVA_OPTS: "-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintGCDetails -Duser.timezone=Europe/Rome"
+      REDPIPE_CONF_FILE: "calendar-service.json"
+      REDPIPE_JAR_FILE: "/usr/redpipes/users-0.0.2-SNAPSHOT.jar"
+      MAIN_REDPIPE: "net.redpipe.clustered.users.server.Main"
+    expose:
+      - 8000
+      - 8081
+    ports:
+      - "9007:8000"
+    command: [sh, -c,
+      "/usr/bin/java $$JAVA_OPTS -cp $$(echo $$REDPIPE_LIB/*.jar | tr ' ' ':'):$$REDPIPE_JAR_FILE $$MAIN_REDPIPE"]
+

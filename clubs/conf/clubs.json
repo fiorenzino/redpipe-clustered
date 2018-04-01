@@ -1,0 +1,7 @@
+{
+  "http_port": 8080,
+  "db_url": "jdbc:hsqldb:file:db/redpipe-clustered",
+  "db_driver": "org.hsqldb.jdbcDriver",
+  "db_max_pool_size": 80,
+  "clustered": true
+}
