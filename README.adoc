@@ -4,6 +4,7 @@
 **
 
 The scenario, 3 services:
+
 * 2 simple services (users and club)
 * 1 api gateway, that expose all other services, in the /api/xxx path
 
@@ -14,13 +15,14 @@ To simplify the deploy, we use a single docker machine with all dependencies ins
 it's a fat jar classpath.
 
 How to start:
+
 ** clone the project:
 **
 
 * git clone https://github.com/fiorenzino/redpipe
 * mvn clean install -Dsource.skip=true
 
-**Clone the redpipe-cluster:
+** clone the redpipe-cluster:
 **
 
 * git clone https://github.com/fiorenzino/redpipe-clustered
