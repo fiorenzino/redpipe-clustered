@@ -9,10 +9,8 @@ import io.vertx.rxjava.ext.web.client.HttpResponse;
 import io.vertx.rxjava.ext.web.client.WebClient;
 import io.vertx.rxjava.servicediscovery.ServiceDiscovery;
 import io.vertx.rxjava.servicediscovery.types.HttpEndpoint;
-import net.redpipe.engine.core.AppGlobals;
 import rx.Single;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -21,7 +19,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 @Path("/api/")
-@ApplicationScoped
 public class ApiGatewayService {
 
 
@@ -29,13 +26,13 @@ public class ApiGatewayService {
     ServiceDiscovery serviceDiscovery;
 
 
+    public ApiGatewayService() {
+        System.out.println("init ApiGatewayService");
+    }
+
     @GET
     public Response get() {
         return Response.ok("Hello ApiGatewayService").build();
-    }
-
-    public ApiGatewayService() {
-        System.out.println("init ApiGatewayService");
     }
 
     @DELETE
@@ -87,7 +84,6 @@ public class ApiGatewayService {
                     System.out.println("k: " + k + ", v: " + v);
                 }
         );
-        ServiceDiscovery serviceDiscovery = (ServiceDiscovery) AppGlobals.get().getGlobal("serviceDiscovery");
         Single<WebClient> quotes = HttpEndpoint.rxGetWebClient(serviceDiscovery, rec -> rec.getName().equals(apiname));
         quotes.subscribe((client) -> {
             if (client == null) {

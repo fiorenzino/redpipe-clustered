@@ -18,7 +18,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass> net.redpipe.clustered.apigateway.server.Main</mainClass>
+							<mainClass>net.redpipe.clustered.apigateway.server.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

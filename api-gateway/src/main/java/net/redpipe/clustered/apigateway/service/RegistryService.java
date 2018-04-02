@@ -1,26 +1,26 @@
 package net.redpipe.clustered.apigateway.service;
 
 import io.vertx.core.Future;
-import io.vertx.core.Vertx;
 import io.vertx.rx.java.ObservableFuture;
 import io.vertx.rx.java.RxHelper;
+import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.servicediscovery.ServiceDiscovery;
 import net.redpipe.clustered.apigateway.util.ServiceUtils;
-import net.redpipe.engine.core.AppGlobals;
 import rx.Single;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 @Path("/registry")
-@ApplicationScoped
 public class RegistryService {
 
 
     @Inject
     Vertx vertx;
+
+    @Inject
+    ServiceDiscovery serviceDiscovery;
 
     public RegistryService() {
         System.out.println("init RegistryService");
@@ -30,7 +30,6 @@ public class RegistryService {
     @GET
     public Single<String> get() {
         ObservableFuture<String> resultHandler = RxHelper.observableFuture();
-        ServiceDiscovery serviceDiscovery = (ServiceDiscovery) AppGlobals.get().getGlobal("serviceDiscovery");
         ServiceUtils.getAllEndpoints(serviceDiscovery).setHandler(ar ->
         {
             if (ar.succeeded()) {

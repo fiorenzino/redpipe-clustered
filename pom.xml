@@ -104,7 +104,7 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<mainClass>fr.epardaud.redpipe_openshift_helloworld.Main</mainClass>
+								<mainClass>boh.Main</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
